@@ -1,26 +1,29 @@
 package xmltogo_test
 
 import (
+	"../clouseau/reckon"
 	"./"
 	"encoding/xml"
 	"fmt"
-	"io/ioutil"
+	//"io/ioutil"
 	"testing"
 )
 
 func Test(t *testing.T) {
-	bytes, err := ioutil.ReadFile("./data.xml")
-	if err != nil {
-		panic(err)
-	}
+	/*
+		bytes, err := ioutil.ReadFile("./data.xml")
+		if err != nil {
+			panic(err)
+		}
+	*/
+	bytes := []byte("<a><b>1</b><c>2</c><d>3</d></a>")
 	a := A{}
-	err = xml.Unmarshal(bytes, &a)
+	err := xml.Unmarshal(bytes, &a)
 	if err != nil {
 		panic(err)
 	}
-	for _, item := range a.List {
-		fmt.Printf("item: %v\n", item.String())
-	}
+	out := fmt.Sprintf("%v", a)
+	reckon.That(out).Is.EqualTo("")
 }
 
 var marshallerOfA = xmltogo.InterfaceMarshaller{

@@ -28,16 +28,22 @@ func (i *InterfaceMarshaller) MarshalChildren(d *xml.Decoder, start xml.StartEle
 					return errors.New(fmt.Sprintf("Token name not recognized: %v", bookend.Name.Local))
 				}
 				item := itemType()
+				fmt.Printf("type: %v\n", reflect.TypeOf(item).Name())
+				fmt.Printf("kind: %v\n", reflect.TypeOf(item).Kind())
+				fmt.Printf("ptr kind: %v\n", reflect.ValueOf(&item).Kind())
+				fmt.Printf("start: %V\n", bookend)
 				err := d.DecodeElement(&item, &bookend)
 				if err != nil {
 					return err
 				}
-				err = appender(item)
+				fmt.Printf("item: %v\n", item)
+				err = appender(&item)
 				if err != nil {
 					return err
 				}
 			}
 		}
 	}
+	fmt.Println("no errors")
 	return nil
 }
